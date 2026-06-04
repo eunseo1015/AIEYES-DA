@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>학습 진도 트래커</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f13;
+    --surface: #17171e;
+    --surface2: #1e1e28;
+    --border: #2a2a38;
+    --text: #e8e8f0;
+    --text-muted: #7070a0;
+    --accent1: #7c6af7;
+    --accent2: #f76ab0;
+    --accent3: #6af7c8;
+    --accent4: #f7c86a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    min-height: 100vh;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  header .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent3);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--text);
+  }
+
+  /* ── Subject grid ─────────────────── */
+  .subjects {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .subject-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    transition: border-color 0.2s;
+  }
+
+  .subject-card:hover { border-color: var(--accent); }
+
+  /* card header */
+  .card-head {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* circular progress */
+  .circle-wrap {
+    position: relative;
+    width: 68px;
+    height: 68px;
+    flex-shrink: 0;
+  }
+
+  .circle-wrap svg {
+    transform: rotate(-90deg);
+    width: 68px;
+    height: 68px;
+  }
+
+  .circle-bg {
+    fill: none;
+    stroke: var(--surface2);
+    stroke-width: 5;
+  }
+
+  .circle-fill {
+    fill: none;
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-dasharray: 163.36;
+    stroke-dashoffset: 163.36;
+    transition: stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.3s;
+  }
+
+  .circle-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .card-info { flex: 1; min-width: 0; }
+
+  .subject-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .unit-count {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* unit list */
+  .unit-list { display: flex; flex-direction: column; gap: 0.45rem; }
+
+  .unit-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.5rem 0.7rem;
+    border-radius: 8px;
+    background: var(--surface2);
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s, opacity 0.15s;
+  }
+
+  .unit-item:hover { background: #24243299; }
+
+  .unit-item.done { opacity: 0.65; }
+
+  .checkbox {
+    width: 17px;
+    height: 17px;
+    border-radius: 5px;
+    border: 1.5px solid var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .unit-item.done .checkbox {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .checkbox svg { display: none; }
+  .unit-item.done .checkbox svg { display: block; }
+
+  .unit-name {
+    font-size: 0.8rem;
+    line-height: 1.3;
+    flex: 1;
+  }
+
+  .unit-item.done .unit-name {
+    text-decoration: line-through;
+    color: var(--text-muted);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="label">Study Tracker</div>
+  <h1>📚 과목별 학습 진도</h1>
+</header>
+
+<div class="subjects" id="subjects"></div>
+
+<script>
+const SUBJECTS = [
+  {
+    id: 'wto',
+    name: 'WTO 국제통상법',
+    color: '#7c6af7',
+    units: [
+      'Chapter 1 — WTO 법원(法源)과 법질서',
+      'Chapter 2 — WTO 개요',
+      'Chapter 3 — 분쟁해결절차 (DSU)',
+      'Chapter 4 — 비차별 원칙 (MFN·NT)',
+      'Chapter 5 — 상품·서비스 시장접근',
+      'Chapter 6 — 예외 조항 (XX·XIV)',
+      'Chapter 7 — 세이프가드 & 반덤핑',
+      'Chapter 8 — 보조금 및 상계조치',
+    ]
+  },
+  {
+    id: 'china-ir',
+    name: '현대중국국제관계',
+    color: '#f76ab0',
+    units: [
+      'Week 1 — 스키마 이론과 외부 인식 관리',
+      'Week 2 — 중국의 이념적 호소력',
+      'Week 3 — 산업·안보 전략 (새장 이론)',
+      'Week 4 — 경제 기적과 비교우위',
+      'Week 5 — 미중 게임이론 (죄수 딜레마)',
+      'Week 6 — 미중 게임이론 (매·비둘기)',
+      'Week 7 — 중일관계 (FOIP·Quad·센카쿠)',
+      'Week 8 — EU-중국 관계',
+      'Week 9 — 중국-아프리카 관계',
+      'Week 10 — 인도의 전략적 자율성',
+      'Week 11 — 동남아시아·대나무 외교',
+      'Week 12 — 미중 경쟁과 한반도',
+    ]
+  },
+  {
+    id: 'trade',
+    name: '국제무역론',
+    color: '#6af7c8',
+    units: [
+      'Ch.1 — 무역의 이익',
+      'Ch.2 — 비교우위와 기회비용',
+      'Ch.3 — 특정요소 모형',
+      'Ch.4 — 헥셔-올린 모형',
+      'Ch.5 — 표준무역 모형',
+      'Ch.6 — 규모의 경제와 독점적 경쟁',
+      'Ch.7 — 외부 규모의 경제',
+      'Ch.8 — 기업의 수출 결정',
+    ]
+  },
+  {
+    id: 'history',
+    name: '근세유럽·대서양사',
+    color: '#f7c86a',
+    units: [
+      'Unit 1 — 르네상스와 인문주의',
+      'Unit 2 — 종교개혁 (루터·칼뱅)',
+      'Unit 3 — 대항해시대와 식민지',
+      'Unit 4 — 과학혁명',
+      'Unit 5 — 30년 전쟁과 베스트팔렌',
+      'Unit 6 — 절대왕정의 전개',
+      'Unit 7 — 대서양 노예무역',
+      'Unit 8 — 계몽주의',
+    ]
+  },
+  {
+    id: 'chinese',
+    name: '중국어 (中文)',
+    color: '#fa8c6a',
+    units: [
+      'L1 — 把字句 / 被字句',
+      'L2 — 결과보어 · 정도보어',
+      'L3 — 越来越 / 因为…而…',
+      'L4 — 문어체 독해 (산문)',
+      'L5 — HSK 어휘 확장',
+      'L6 — 작문 실전 연습',
+    ]
+  },
+];
+
+// Load state
+function loadState() {
+  try { return JSON.parse(localStorage.getItem('studyTracker') || '{}'); } catch { return {}; }
+}
+function saveState(state) {
+  localStorage.setItem('studyTracker', JSON.stringify(state));
+}
+
+let state = loadState();
+
+function calcProgress(subjectId, units) {
+  const done = (state[subjectId] || []);
+  return { done: done.length, total: units.length, pct: units.length ? Math.round(done.length / units.length * 100) : 0 };
+}
+
+function updateCircle(card, subjectId, units) {
+  const { pct } = calcProgress(subjectId, units);
+  const circle = card.querySelector('.circle-fill');
+  const label = card.querySelector('.circle-text');
+  const total = 163.36;
+  circle.style.strokeDashoffset = total - (total * pct / 100);
+  label.textContent = pct + '%';
+
+  // update unit count label
+  const countEl = card.querySelector('.unit-count');
+  const { done, total: tot } = calcProgress(subjectId, units);
+  countEl.textContent = `${done} / ${tot} 완료`;
+}
+
+function buildCard(subject) {
+  const { id, name, color, units } = subject;
+  const card = document.createElement('div');
+  card.className = 'subject-card';
+  card.style.setProperty('--accent', color);
+
+  const done = state[id] || [];
+
+  card.innerHTML = `
+    <div class="card-head">
+      <div class="circle-wrap">
+        <svg viewBox="0 0 56 56">
+          <circle class="circle-bg" cx="28" cy="28" r="26"/>
+          <circle class="circle-fill" cx="28" cy="28" r="26" stroke="${color}"/>
+        </svg>
+        <div class="circle-text">0%</div>
+      </div>
+      <div class="card-info">
+        <div class="subject-name">${name}</div>
+        <div class="unit-count">0 / ${units.length} 완료</div>
+      </div>
+    </div>
+    <div class="unit-list">
+      ${units.map((u, i) => `
+        <div class="unit-item${done.includes(i) ? ' done' : ''}" data-idx="${i}">
+          <div class="checkbox">
+            <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+              <path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="unit-name">${u}</span>
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  // Click handlers
+  card.querySelectorAll('.unit-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const idx = parseInt(item.dataset.idx);
+      if (!state[id]) state[id] = [];
+      const pos = state[id].indexOf(idx);
+      if (pos === -1) state[id].push(idx);
+      else state[id].splice(pos, 1);
+      saveState(state);
+      item.classList.toggle('done', state[id].includes(idx));
+      updateCircle(card, id, units);
+    });
+  });
+
+  updateCircle(card, id, units);
+  return card;
+}
+
+const container = document.getElementById('subjects');
+SUBJECTS.forEach(s => container.appendChild(buildCard(s)));
+</script>
+</body>
+</html>
