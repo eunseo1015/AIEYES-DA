@@ -53,7 +53,7 @@
     },
     {
       "cell_type": "code",
-      "execution_count": null,
+      "execution_count": 1,
       "id": "f4992167",
       "metadata": {
         "execution": {
@@ -63,12 +63,15 @@
           "shell.execute_reply": "2026-09-07T01:28:11.712492Z"
         },
         "id": "f4992167",
-        "outputId": "4fa39e93-f121-4fef-bb2e-8b6c5ccbff84"
+        "outputId": "b4c44bef-0e29-40fd-fcf4-14a4c89ff4be",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
       },
       "outputs": [
         {
-          "name": "stdout",
           "output_type": "stream",
+          "name": "stdout",
           "text": [
             "준비 완료\n"
           ]
@@ -76,12 +79,17 @@
       ],
       "source": [
         "from pathlib import Path\n",
-        "\n",
+        "#파일 경로를 다루는 기능인 path를 가져옴\n",
         "import pandas as pd\n",
+        "#표 형태의 데이터를 다루는 라이브러리 pandas를 가져오고, pd라는 이름으로 부르겠다는 뜻\n",
         "import matplotlib.pyplot as plt\n",
+        "#그래프를 그리는 기본 라이브러리. plt로 줄여씀, plt.figure()->그래프 크기를 지정, plt.show->그래프에 화면 띄우기\n",
         "import seaborn as sns\n",
         "\n",
         "sns.set_theme(style=\"whitegrid\", palette=\"muted\")\n",
+        "#그래프의 전체적인 디자인을 미리 설정\n",
+        "#style=\"whitegrid\": 배경을 흰색+연한 격자무늬\n",
+        "#palette=\"muted\": 그래프 색상을 채도가 낫고 차분한 톤으로\n",
         "\n",
         "print(\"준비 완료\")"
       ]
@@ -101,8 +109,16 @@
       ]
     },
     {
+      "cell_type": "markdown",
+      "source": [],
+      "metadata": {
+        "id": "FadhhC1FP7oj"
+      },
+      "id": "FadhhC1FP7oj"
+    },
+    {
       "cell_type": "code",
-      "execution_count": null,
+      "execution_count": 2,
       "id": "c6edacdd",
       "metadata": {
         "execution": {
@@ -112,14 +128,17 @@
           "shell.execute_reply": "2026-09-07T01:28:11.727344Z"
         },
         "id": "c6edacdd",
-        "outputId": "2d5b4483-e23f-4a85-f869-e599137b3e1c"
+        "outputId": "da42f105-86f5-4201-a818-bf14ee2deeb6",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
       },
       "outputs": [
         {
-          "name": "stdout",
           "output_type": "stream",
+          "name": "stdout",
           "text": [
-            "로컬 파일에서 읽었습니다.\n",
+            "인터넷에서 내려받았습니다. (다음부터는 저장된 파일을 씁니다)\n",
             "\n",
             "원래 열 이름:\n",
             "['Date', 'Rented Bike Count', 'Hour', 'Temperature(°C)', 'Humidity(%)', 'Wind speed (m/s)', 'Visibility (10m)', 'Dew point temperature(°C)', 'Solar Radiation (MJ/m2)', 'Rainfall(mm)', 'Snowfall (cm)', 'Seasons', 'Holiday', 'Functioning Day']\n"
@@ -173,7 +192,7 @@
     },
     {
       "cell_type": "code",
-      "execution_count": null,
+      "execution_count": 3,
       "id": "20eb89b1",
       "metadata": {
         "execution": {
@@ -183,13 +202,35 @@
           "shell.execute_reply": "2026-09-07T01:28:11.742851Z"
         },
         "id": "20eb89b1",
-        "outputId": "03e35073-d5a2-4755-a3bd-84c5925ffae6"
+        "outputId": "411d286c-0f60-430e-8fcf-cc15b6e6e5fc",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 313
+        }
       },
       "outputs": [
         {
+          "output_type": "execute_result",
           "data": {
+            "text/plain": [
+              "         date  rent_count  hour  temp  humidity  wind  visibility  dew_point  \\\n",
+              "0  01/12/2017         254     0  -5.2        37   2.2        2000      -17.6   \n",
+              "1  01/12/2017         204     1  -5.5        38   0.8        2000      -17.6   \n",
+              "2  01/12/2017         173     2  -6.0        39   1.0        2000      -17.7   \n",
+              "3  01/12/2017         107     3  -6.2        40   0.9        2000      -17.6   \n",
+              "4  01/12/2017          78     4  -6.0        36   2.3        2000      -18.6   \n",
+              "\n",
+              "   solar  rain  snow  season     holiday is_open  \n",
+              "0    0.0   0.0   0.0  Winter  No Holiday     Yes  \n",
+              "1    0.0   0.0   0.0  Winter  No Holiday     Yes  \n",
+              "2    0.0   0.0   0.0  Winter  No Holiday     Yes  \n",
+              "3    0.0   0.0   0.0  Winter  No Holiday     Yes  \n",
+              "4    0.0   0.0   0.0  Winter  No Holiday     Yes  "
+            ],
             "text/html": [
-              "<div>\n",
+              "\n",
+              "  <div id=\"df-bdc87a9d-6137-40ad-9447-e7559d386840\" class=\"colab-df-container\">\n",
+              "    <div>\n",
               "<style scoped>\n",
               "    .dataframe tbody tr th:only-of-type {\n",
               "        vertical-align: middle;\n",
@@ -311,27 +352,98 @@
               "    </tr>\n",
               "  </tbody>\n",
               "</table>\n",
-              "</div>"
-            ],
-            "text/plain": [
-              "         date  rent_count  hour  temp  humidity  wind  visibility  dew_point  \\\n",
-              "0  01/12/2017         254     0  -5.2        37   2.2        2000      -17.6   \n",
-              "1  01/12/2017         204     1  -5.5        38   0.8        2000      -17.6   \n",
-              "2  01/12/2017         173     2  -6.0        39   1.0        2000      -17.7   \n",
-              "3  01/12/2017         107     3  -6.2        40   0.9        2000      -17.6   \n",
-              "4  01/12/2017          78     4  -6.0        36   2.3        2000      -18.6   \n",
+              "</div>\n",
+              "    <div class=\"colab-df-buttons\">\n",
               "\n",
-              "   solar  rain  snow  season     holiday is_open  \n",
-              "0    0.0   0.0   0.0  Winter  No Holiday     Yes  \n",
-              "1    0.0   0.0   0.0  Winter  No Holiday     Yes  \n",
-              "2    0.0   0.0   0.0  Winter  No Holiday     Yes  \n",
-              "3    0.0   0.0   0.0  Winter  No Holiday     Yes  \n",
-              "4    0.0   0.0   0.0  Winter  No Holiday     Yes  "
-            ]
+              "  <div class=\"colab-df-container\">\n",
+              "    <button class=\"colab-df-convert\" onclick=\"convertToInteractive('df-bdc87a9d-6137-40ad-9447-e7559d386840')\"\n",
+              "            title=\"Convert this dataframe to an interactive table.\"\n",
+              "            style=\"display:none;\">\n",
+              "\n",
+              "  <svg xmlns=\"http://www.w3.org/2000/svg\" height=\"24px\" viewBox=\"0 -960 960 960\">\n",
+              "    <path d=\"M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z\"/>\n",
+              "  </svg>\n",
+              "    </button>\n",
+              "\n",
+              "  <style>\n",
+              "    .colab-df-container {\n",
+              "      display:flex;\n",
+              "      gap: 12px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert {\n",
+              "      background-color: #E8F0FE;\n",
+              "      border: none;\n",
+              "      border-radius: 50%;\n",
+              "      cursor: pointer;\n",
+              "      display: none;\n",
+              "      fill: #1967D2;\n",
+              "      height: 32px;\n",
+              "      padding: 0 0 0 0;\n",
+              "      width: 32px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert:hover {\n",
+              "      background-color: #E2EBFA;\n",
+              "      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);\n",
+              "      fill: #174EA6;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-buttons div {\n",
+              "      margin-bottom: 4px;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert {\n",
+              "      background-color: #3B4455;\n",
+              "      fill: #D2E3FC;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert:hover {\n",
+              "      background-color: #434B5C;\n",
+              "      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);\n",
+              "      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));\n",
+              "      fill: #FFFFFF;\n",
+              "    }\n",
+              "  </style>\n",
+              "\n",
+              "    <script>\n",
+              "      const buttonEl =\n",
+              "        document.querySelector('#df-bdc87a9d-6137-40ad-9447-e7559d386840 button.colab-df-convert');\n",
+              "      buttonEl.style.display =\n",
+              "        google.colab.kernel.accessAllowed ? 'block' : 'none';\n",
+              "\n",
+              "      async function convertToInteractive(key) {\n",
+              "        const element = document.querySelector('#df-bdc87a9d-6137-40ad-9447-e7559d386840');\n",
+              "        const dataTable =\n",
+              "          await google.colab.kernel.invokeFunction('convertToInteractive',\n",
+              "                                                    [key], {});\n",
+              "        if (!dataTable) return;\n",
+              "\n",
+              "        const docLinkHtml = 'Like what you see? Visit the ' +\n",
+              "          '<a target=\"_blank\" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'\n",
+              "          + ' to learn more about interactive tables.';\n",
+              "        element.innerHTML = '';\n",
+              "        dataTable['output_type'] = 'display_data';\n",
+              "        await google.colab.output.renderOutput(dataTable, element);\n",
+              "        const docLink = document.createElement('div');\n",
+              "        docLink.innerHTML = docLinkHtml;\n",
+              "        element.appendChild(docLink);\n",
+              "      }\n",
+              "    </script>\n",
+              "  </div>\n",
+              "\n",
+              "\n",
+              "    </div>\n",
+              "  </div>\n"
+            ],
+            "application/vnd.google.colaboratory.intrinsic+json": {
+              "type": "dataframe",
+              "variable_name": "df",
+              "summary": "{\n  \"name\": \"df\",\n  \"rows\": 8760,\n  \"fields\": [\n    {\n      \"column\": \"date\",\n      \"properties\": {\n        \"dtype\": \"category\",\n        \"num_unique_values\": 365,\n        \"samples\": [\n          \"12/06/2018\",\n          \"03/01/2018\",\n          \"16/12/2017\"\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"rent_count\",\n      \"properties\": {\n        \"dtype\": \"number\",\n        \"std\": 644,\n        \"min\": 0,\n        \"max\": 3556,\n        \"num_unique_values\": 2166,\n        \"samples\": [\n          1634,\n          2146,\n          2161\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"hour\",\n      \"properties\": {\n        \"dtype\": \"number\",\n        \"std\": 6,\n        \"min\": 0,\n        \"max\": 23,\n        \"num_unique_values\": 24,\n        \"samples\": [\n          8,\n          16,\n          0\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"temp\",\n      \"properties\": {\n        \"dtype\": \"number\",\n        \"std\": 11.944825230027941,\n        \"min\": -17.8,\n        \"max\": 39.4,\n        \"num_unique_values\": 546,\n        \"samples\": [\n          16.1,\n          -7.5,\n          12.5\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"humidity\",\n      \"properties\": {\n        \"dtype\": \"number\",\n        \"std\": 20,\n        \"min\": 0,\n        \"max\": 98,\n        \"num_unique_values\": 90,\n        \"samples\": [\n          85,\n          82,\n          28\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"wind\",\n      \"properties\": {\n        \"dtype\": \"number\",\n        \"std\": 1.0362999934025439,\n        \"min\": 0.0,\n        \"max\": 7.4,\n        \"num_unique_values\": 65,\n        \"samples\": [\n          4.9,\n          7.2,\n          2.2\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"visibility\",\n      \"properties\": {\n        \"dtype\": \"number\",\n        \"std\": 608,\n        \"min\": 27,\n        \"max\": 2000,\n        \"num_unique_values\": 1789,\n        \"samples\": [\n          157,\n          943,\n          1481\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"dew_point\",\n      \"properties\": {\n        \"dtype\": \"number\",\n        \"std\": 13.06036933814979,\n        \"min\": -30.6,\n        \"max\": 27.2,\n        \"num_unique_values\": 556,\n        \"samples\": [\n          19.8,\n          -18.1,\n          1.3\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"solar\",\n      \"properties\": {\n        \"dtype\": \"number\",\n        \"std\": 0.8687462422391242,\n        \"min\": 0.0,\n        \"max\": 3.52,\n        \"num_unique_values\": 345,\n        \"samples\": [\n          1.39,\n          1.54,\n          2.67\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"rain\",\n      \"properties\": {\n        \"dtype\": \"number\",\n        \"std\": 1.1281929687322043,\n        \"min\": 0.0,\n        \"max\": 35.0,\n        \"num_unique_values\": 61,\n        \"samples\": [\n          0.0,\n          0.2,\n          12.0\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"snow\",\n      \"properties\": {\n        \"dtype\": \"number\",\n        \"std\": 0.4367461811250087,\n        \"min\": 0.0,\n        \"max\": 8.8,\n        \"num_unique_values\": 51,\n        \"samples\": [\n          3.8,\n          3.4,\n          8.8\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"season\",\n      \"properties\": {\n        \"dtype\": \"category\",\n        \"num_unique_values\": 4,\n        \"samples\": [\n          \"Spring\",\n          \"Autumn\",\n          \"Winter\"\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"holiday\",\n      \"properties\": {\n        \"dtype\": \"category\",\n        \"num_unique_values\": 2,\n        \"samples\": [\n          \"Holiday\",\n          \"No Holiday\"\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"is_open\",\n      \"properties\": {\n        \"dtype\": \"category\",\n        \"num_unique_values\": 2,\n        \"samples\": [\n          \"No\",\n          \"Yes\"\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    }\n  ]\n}"
+            }
           },
-          "execution_count": 3,
           "metadata": {},
-          "output_type": "execute_result"
+          "execution_count": 3
         }
       ],
       "source": [
@@ -360,7 +472,7 @@
     },
     {
       "cell_type": "code",
-      "execution_count": null,
+      "execution_count": 4,
       "id": "fde73c36",
       "metadata": {
         "execution": {
@@ -370,22 +482,25 @@
           "shell.execute_reply": "2026-09-07T01:28:11.752254Z"
         },
         "id": "fde73c36",
-        "outputId": "25da3dff-a8a0-4a73-abf7-a41f246cef45"
+        "outputId": "5ffd3ba1-0635-4b35-f09c-c6a7144f0c11",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
       },
       "outputs": [
         {
-          "name": "stdout",
           "output_type": "stream",
+          "name": "stdout",
           "text": [
             "행 개수, 열 개수: (8760, 14)\n",
             "→ 8,760행 × 14열\n",
             "\n",
-            "<class 'pandas.DataFrame'>\n",
+            "<class 'pandas.core.frame.DataFrame'>\n",
             "RangeIndex: 8760 entries, 0 to 8759\n",
             "Data columns (total 14 columns):\n",
             " #   Column      Non-Null Count  Dtype  \n",
             "---  ------      --------------  -----  \n",
-            " 0   date        8760 non-null   str    \n",
+            " 0   date        8760 non-null   object \n",
             " 1   rent_count  8760 non-null   int64  \n",
             " 2   hour        8760 non-null   int64  \n",
             " 3   temp        8760 non-null   float64\n",
@@ -396,17 +511,21 @@
             " 8   solar       8760 non-null   float64\n",
             " 9   rain        8760 non-null   float64\n",
             " 10  snow        8760 non-null   float64\n",
-            " 11  season      8760 non-null   str    \n",
-            " 12  holiday     8760 non-null   str    \n",
-            " 13  is_open     8760 non-null   str    \n",
-            "dtypes: float64(6), int64(4), str(4)\n",
-            "memory usage: 958.3 KB\n"
+            " 11  season      8760 non-null   object \n",
+            " 12  holiday     8760 non-null   object \n",
+            " 13  is_open     8760 non-null   object \n",
+            "dtypes: float64(6), int64(4), object(4)\n",
+            "memory usage: 958.3+ KB\n"
           ]
         }
       ],
       "source": [
         "print(\"행 개수, 열 개수:\", df.shape)\n",
+        "#df.shape: 데이터프레임의 크기를 (행 개수, 열 개수) 형태의 튜플로 돌려\n",
         "print(f\"→ {df.shape[0]:,}행 × {df.shape[1]}열\")\n",
+        "#f-string: 중괄호 안에 변수나 계산 식을 넣으면 그 값이 문자열 안에 바로 끼워\n",
+        "#df.shape[0]은 shape 튜플의 첫 번째 값(행 개수), df.shape[1]은 두 번째 값(열 개수)\n",
+        "#;, 는 숫자 형식 지정자, 천 단위마다 쉼표를 찍어줌\n",
         "print()\n",
         "df.info()"
       ]
