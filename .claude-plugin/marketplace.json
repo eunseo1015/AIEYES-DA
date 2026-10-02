@@ -1,0 +1,11 @@
+{
+  "name": "aieyes-da",
+  "owner": { "name": "eunseo1015" },
+  "plugins": [
+    {
+      "name": "aieyes-da",
+      "source": "./plugins/aieyes-da",
+      "description": "AIEYES 데이터분석(DA) 수업용 pandas 도우미 플러그인"
+    }
+  ]
+}

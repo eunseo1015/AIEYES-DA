@@ -1,0 +1,6 @@
+{
+  "name": "aieyes-da",
+  "version": "0.1.0",
+  "description": "AIEYES 데이터분석(DA) 수업용 pandas 도우미 플러그인",
+  "author": { "name": "eunseo1015" }
+}
